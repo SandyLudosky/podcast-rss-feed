@@ -1,6 +1,14 @@
 
+[1] - Start the server (API : http://127.0.0.1:8000/)
+[2] - Start client app
+
+
+[1] - Start the server
 ## Create a virtual environment :
-`python -m venv env`
+```
+cd api
+python -m venv env
+```
 ## Activate the virtual environment :
 
 `source env/bin/activate`
@@ -27,3 +35,20 @@ use `pip3 on a mac`
 
 ## Start the server:
 `uvicorn main:app --reload`
+
+## Test API with curl:
+
+```
+curl -X POST "http://localhost:8000/generate" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"prompt\":\"Once upon a time\"}"
+```
+
+[2] Start the React client application
+
+## Installation:
+```
+cd client
+npm install
+```
+
+## Start the app
+`npm start`

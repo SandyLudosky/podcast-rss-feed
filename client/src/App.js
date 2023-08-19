@@ -1,81 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
+import { Form, Loading, PodcastDetails, PodcastSummary } from "./components";
+import fixture from "./fixture";
+import "./App.css";
 
 function App() {
-  const [rss, setRss] = useState("");
-  const [transcript, setTranscript] = useState("");
-  const [summary, setSummary] = useState("");
+  const ref = useRef();
+  const [rss, setRSS] = useState("");
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleRssSubmit = async (e) => {
     setLoading(true);
+    setResult({});
     e.preventDefault();
     try {
-      const response = await axios.post("http://127.0.0.1:8000/transcribe/", {
+      const response = await axios.post("transcribe/", {
         rss,
       });
-      setTranscript(response.data);
+      setResult(response.data);
       setLoading(false);
+      ref.current.value = "";
     } catch (error) {
       console.error(error);
     }
   };
-
-  const handleTranscriptSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/summarize/", {
-        content: transcript,
-      });
-      setSummary(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        marginTop: "40px",
-      }}
-    >
-      {loading && <h1>Loading...</h1>}
-      <form onSubmit={handleRssSubmit}>
-        <label>
-          RSS Feed URL:
-          <input
-            type="text"
-            value={rss}
-            onChange={(e) => setRss(e.target.value)}
-          />
-        </label>
-        <button type="submit" className="mx-2">
-          Transcribe
-        </button>
-      </form>
-      {transcript && (
-        <form onSubmit={handleTranscriptSubmit}>
-          <label>
-            Transcript:
-            <textarea
-              value={transcript}
-              onChange={(e) => setTranscript(e.target.value)}
-            />
-          </label>
-          <button type="submit" className="mx-2">
-            Summarize
-          </button>
-        </form>
-      )}
-      {summary && (
-        <div>
-          <h2>Summary:</h2>
-          <p>{transcript}</p>
-        </div>
-      )}
+    <div className="mt-5 App-container">
+      <Form ref={ref} submit={handleRssSubmit} setRSS={setRSS} />
+      <Loading loading={loading} />
+      <PodcastDetails {...result} />
+      <PodcastSummary {...result} />
     </div>
   );
 }

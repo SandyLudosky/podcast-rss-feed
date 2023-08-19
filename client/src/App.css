@@ -1,38 +1,40 @@
-.App {
-  text-align: center;
+.App-container {
+  width: 60%;
+  margin: 0 auto;
+  color:#666;
+}
+.App-container form, .App-container label {
+  width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+.App-container ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.podcast-summary {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-bottom: 20px;
+  margin-top: 3rem;
 }
 
-.App-link {
-  color: #61dafb;
+.podcast-image img {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.podcast-title {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.podcast-description {
+  font-size: 1rem;
+  margin: 10px 0;
+  color: #555;
 }
