@@ -16,10 +16,21 @@ def get_podcast(rss):
         podcast_feed = feedparser.parse(rss)
         print("The number of podcast entries is ", len(podcast_feed.entries))
         title = podcast_feed.entries[0].title
+        print(podcast_feed.entries[0])
         for item in podcast_feed.entries[0].links:
+
             if (item['type'] == 'audio/mpeg'):
                 print("The episode URL is ", item.href)
-                return {"url": item.href, "title": title}
+                return {
+                    "url": item.href,
+                    "duration": podcast_feed.entries[0].itunes_duration,
+                    "title": podcast_feed.entries[0].title,
+                    "description": podcast_feed.entries[0].description,
+                    "author": podcast_feed.entries[0].author,
+                    "date": podcast_feed.entries[0].published,
+                    "type": podcast_feed.entries[0],
+                    "image": podcast_feed.entries[0].image.href,
+                }
 
 
 def downloadFile(item):
@@ -43,7 +54,9 @@ def transcribe(file_path):
 
     # Divide the audio chunks into smaller chunks and transcribe
     transcript = utils.divide_in_chunks(audio_chunks)
-    # Delete all files in the current directory that start with "chunk" and end with ".wav"
+
+    # Delete all files in the current directory that start with "chunk" and
+    # end with ".wav"
     utils.delete_chunks(count)
     return transcript
 
@@ -59,17 +72,26 @@ def summarize(transcript):
             {"role": "user", "content": "summarize the following text:" + transcript},
         ]
     )
-
     return completion.choices[0].message.content
 
 
-def run(rss_url):
-    # rss = input("Enter the RSS feed URL:")
-    # item = get_podcast(rss_url)
-    # file_path = downloadFile(item)
-    file_path = "audio.mp3"
-    transcript = transcribe("media/" + file_path)
+# file_path = "audio.mp3"
+
+def runAPI(rss_url):
+    item = get_podcast(rss_url)
+    file_path = downloadFile(item)
+    transcript = transcribe(file_path)
     summary = summarize(transcript)
-    return summary
-    # transcript = transcribe("media/audio.mp3")
-    # return transcript
+    return {"summary": summary, "item": item}
+
+
+def run():
+    rss = input("Enter the RSS feed URL:")
+    item = get_podcast(rss)
+    file_path = downloadFile(item)
+    transcript = transcribe(file_path)
+    summary = summarize(transcript)
+    return {"summary": summary, "item": item}
+
+# uncomment the following line to run the script
+# run()

@@ -12,6 +12,10 @@ source env/bin/activate
 
 `export OPENAI_API_KEY='sk-brHeh...A39v5iXsM2'`
 
+or add to .env file
+
+`OPENAI_API_KEY=YOUR_API_KEY'`
+
 ## Installation:
 
 ### install requirements :

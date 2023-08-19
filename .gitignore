@@ -1,8 +1,10 @@
 .DS_Store
 env/
 .envrc
+.env
 __pycache__
 media/
+.vscode/
 
 
 # dependencies
