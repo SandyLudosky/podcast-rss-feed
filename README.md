@@ -1,9 +1,10 @@
 
-[1] - Start the server (API : http://127.0.0.1:8000/)
-[2] - Start client app
+#### [1] - Start the server (API : http://127.0.0.1:8000/)
+#### [2] - Start client app
 
+=========================================================
 
-[1] - Start the server
+### [1] - Start the server
 ## Create a virtual environment :
 ```
 cd api
@@ -42,7 +43,7 @@ use `pip3 on a mac`
 curl -X POST "http://localhost:8000/generate" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"prompt\":\"Once upon a time\"}"
 ```
 
-[2] Start the React client application
+###[2] - Start client app
 
 ## Installation:
 ```
