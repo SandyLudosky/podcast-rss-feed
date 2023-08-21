@@ -4,7 +4,7 @@
 
 =========================================================
 
-### [1] - Start the server
+### [1] - Configure and start the server
 ## Create a virtual environment :
 ```
 cd api
@@ -28,7 +28,7 @@ or add to .env file
 use `pip3 on a mac`
 `pip install -r requirements.txt`
 
-### install whisper model
+### (install whisper model)[https://github.com/openai/whisper]
 `pip install git+https://github.com/openai/whisper.git`
 
 ### install server [uvicorn ASGI server](https://www.uvicorn.org/)
@@ -36,12 +36,6 @@ use `pip3 on a mac`
 
 ## Start the server:
 `uvicorn main:app --reload`
-
-## Test API with curl:
-
-```
-curl -X POST "http://localhost:8000/generate" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"prompt\":\"Once upon a time\"}"
-```
 
 ###[2] - Start client app
 
@@ -53,3 +47,17 @@ npm install
 
 ## Start the app
 `npm start`
+
+## Test API with curl:
+
+```
+curl http://127.0.0.1:8000/
+```
+
+add your API key to the header
+```
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR-API-KEY" -d '{
+    "rss": "rss-url"
+}' http://127.0.0.1:8000/transcribe/
+
+```

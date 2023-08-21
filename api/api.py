@@ -15,8 +15,7 @@ def get_podcast(rss):
         ssl._create_default_https_context = ssl._create_unverified_context
         podcast_feed = feedparser.parse(rss)
         print("The number of podcast entries is ", len(podcast_feed.entries))
-        title = podcast_feed.entries[0].title
-        print(podcast_feed.entries[0])
+
         for item in podcast_feed.entries[0].links:
 
             if (item['type'] == 'audio/mpeg'):

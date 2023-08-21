@@ -55,7 +55,6 @@ def protected_route(api_key: str = Security(get_api_key)):
 @app.post('/transcribe')
 def transcribe(item: Item):
     result = api.runAPI(item.rss)
-    print(result)
     return result
 
 
