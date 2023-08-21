@@ -1,20 +1,20 @@
 
-#### [1] - Start the server (API : http://127.0.0.1:8000/)
-#### [2] - Start client app
+### [1] - Configure and start the server
+### [2] - Start client app
 
 =========================================================
 
-### [1] - Configure and start the server
-## Create a virtual environment :
+## [1] - Configure and start the server
+### ➢ Create a virtual environment :
 ```
 cd api
 python -m venv env
 ```
-## Activate the virtual environment :
+### ➢ Activate the virtual environment :
 
 `source env/bin/activate`
 
-## [get an key](https://platform.openai.com/account/api-keys)
+### ➢ [get an key](https://platform.openai.com/account/api-keys)
 
 `export OPENAI_API_KEY='sk-brHeh...A39v5iXsM2'`
 
@@ -24,31 +24,20 @@ or add to .env file
 
 ## Installation:
 
-### install requirements :
-use `pip3 on a mac`
-`pip install -r requirements.txt`
+### ➢ install requirements :
+use `pip3 on a mac` or `pip on windows`
+- `pip install -r requirements.txt`
 
-### (install whisper model)[https://github.com/openai/whisper]
+### ➢ [install whisper model](https://github.com/openai/whisper)
 `pip install git+https://github.com/openai/whisper.git`
 
-### install server [uvicorn ASGI server](https://www.uvicorn.org/)
+### ➢ install server [uvicorn ASGI server](https://www.uvicorn.org/)
 `pip install "uvicorn[standard]`
 
-## Start the server:
+### ➢ Start the server:
 `uvicorn main:app --reload`
 
-###[2] - Start client app
-
-## Installation:
-```
-cd client
-npm install
-```
-
-## Start the app
-`npm start`
-
-## Test API with curl:
+### ➢ Test API with curl:
 
 ```
 curl http://127.0.0.1:8000/
@@ -61,3 +50,15 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR-
 }' http://127.0.0.1:8000/transcribe/
 
 ```
+
+## [2] - Start client app
+
+### ➢ Installation:
+```
+cd client
+npm install
+```
+
+### ➢ Start the app
+`npm start`
+
