@@ -1,9 +1,38 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+
+function secondsToHMS(seconds) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+
+  return {
+    hours: hours,
+    minutes: minutes,
+    seconds: remainingSeconds,
+  };
+}
+
+function formatTimeUnit(unit) {
+  return unit < 10 ? `0${unit}` : unit.toString();
+}
+
+function formatTime(_seconds) {
+  const { hours, minutes, seconds } = secondsToHMS(_seconds);
+  const formattedHours = formatTimeUnit(hours);
+  const formattedMinutes = formatTimeUnit(minutes);
+  const formattedSeconds = formatTimeUnit(seconds);
+
+  return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+}
+
 export const PodcastDetails = ({ item }) => {
   const published = useMemo(() => {
     const d = new Date(item?.date);
     return d.toLocaleDateString();
-  }, []);
+  }, [item]);
+  const duration = useMemo(() => {
+    return formatTime(item?.duration);
+  }, [item]);
   if (item) {
     const { title, image: imageUrl, author } = item;
 
@@ -20,8 +49,9 @@ export const PodcastDetails = ({ item }) => {
         <div className="podcast-details">
           <h2 className="podcast-title">{title}</h2>
           <ul>
-            <li>
+            <li className="d-flex justify-content-between mb-1">
               <small>published : {published}</small>
+              <small className="mx-2">duration: {duration}</small>
             </li>
             <li>
               {" "}
@@ -38,10 +68,25 @@ export const PodcastDetails = ({ item }) => {
 export const PodcastSummary = ({ summary }) => {
   if (!summary) return null;
   return (
-    <>
-      <p className="h3 mt-5">Podcast summary: </p>
+    <div className="my-3">
+      <p className="h3">Podcast summary: </p>
       <p>{summary}</p>
-    </>
+    </div>
+  );
+};
+
+export const PodcastPlayer = ({ item }) => {
+  console.log(item?.type?.links[0]?.href);
+  if (!item) return null;
+  return (
+    <div className="d-flex justify-items-center mt-3">
+      <p className="align-self-center">Listen to podcast: </p>
+      <figure className="mx-4">
+        <audio controls src={item?.type?.links[0]?.href}>
+          <a href={item?.type?.links[0]?.href}> Download audio </a>
+        </audio>
+      </figure>
+    </div>
   );
 };
 
@@ -84,15 +129,33 @@ export const Form = React.forwardRef(({ submit, setRSS }, ref) => {
   );
 });
 
-export const Loading = ({ loading }) => {
-  const dots = [".", "..", "..."];
+export const Loading = ({ loading, message }) => {
+  const dots = useMemo(() => [".", "..", "..."], []);
+  const [currentIndex, setIndex] = useState(0);
 
-  const generating = useMemo(() => {
-    let index = 0;
-    setInterval(() => {
-      index = index <= dots.length - 1 ? index + 1 : 0;
-      return `Generating... ${dots[index]}`;
-    }, 100);
-  }, [loading]);
-  loading && <h1>{generating}</h1>;
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setIndex((i) => (i < dots.length - 1 ? i + 1 : 0));
+    }, 800);
+    return () => clearInterval(intervalId);
+  }, [dots.length]);
+
+  const loadingText = useMemo(() => {
+    return `generating${dots[currentIndex]}`;
+  }, [dots, currentIndex]);
+
+  return (
+    Boolean(loading && !message) && (
+      <p className="h5 mt-4 text-primary">{loadingText}</p>
+    )
+  );
+};
+
+export const Error = ({ message }) => {
+  if (!message) return null;
+  return (
+    <div className="alert alert-danger mt-4" role="alert">
+      {message}
+    </div>
+  );
 };
